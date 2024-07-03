@@ -38,6 +38,11 @@ namespace SportsStore.Infrastructure
 				{
 					TagBuilder tag = new("a");
 					tag.Attributes["href"] = urlHelper.Action(PageAction, new { productPage = i });
+					if (PageClassesEnabled)
+					{
+						tag.AddCssClass(PageClass);
+						tag.AddCssClass(i == PageModel.CurrentPage ? PageClassSelected : PageClassNormal);
+					}
 					tag.InnerHtml.Append(i.ToString());
 					result.InnerHtml.AppendHtml(tag);
 				}
