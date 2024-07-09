@@ -20,6 +20,9 @@ namespace SportsStore.Infrastructure
 
 		public string? PageAction { get; set; }
 
+		[HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+		public Dictionary<string, object> PageUrlValues { get; set; } = [];
+
 		public bool PageClassesEnabled { get; set; } = false;
 
 		public string PageClass { get; set; } = String.Empty;
@@ -37,7 +40,7 @@ namespace SportsStore.Infrastructure
 				for (int i = 1; i <= PageModel.TotalPages; i++)
 				{
 					TagBuilder tag = new("a");
-					tag.Attributes["href"] = urlHelper.Action(PageAction, new { productPage = i });
+					tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
 					if (PageClassesEnabled)
 					{
 						tag.AddCssClass(PageClass);

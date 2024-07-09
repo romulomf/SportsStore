@@ -22,7 +22,7 @@ namespace SportsStore.Tests
 			HomeController controller = new(mock.Object);
 
 			// Act
-			ProductsListViewModel result = controller.Index()?.ViewData.Model as ProductsListViewModel ?? new();
+			ProductsListViewModel result = controller.Index(null)?.ViewData.Model as ProductsListViewModel ?? new();
 
 			// Assert
 			Product[] prodArray = result.Products.ToArray();
@@ -50,7 +50,7 @@ namespace SportsStore.Tests
 			};
 
 			// Act
-			ProductsListViewModel result = controller.Index(2)?.ViewData.Model as ProductsListViewModel ?? new();
+			ProductsListViewModel result = controller.Index(null, 2)?.ViewData.Model as ProductsListViewModel ?? new();
 
 			// Assert
 			PagingInfo pageInfo = result.PagingInfo;
@@ -58,6 +58,35 @@ namespace SportsStore.Tests
 			Assert.Equal(3, pageInfo.ItemsPerPage);
 			Assert.Equal(5, pageInfo.TotalItems);
 			Assert.Equal(2, pageInfo.TotalPages);
+		}
+
+		[Fact]
+		public void Can_Filter_Products()
+		{
+			// Arrange
+			// - create the mock repository
+			Mock<IStoreRepository> mock = new();
+			mock.Setup(m => m.Products).Returns((new Product[] {
+				new() { ProductID = 1, Name = "P1", Category = "Cat1" },
+				new() { ProductID = 2, Name = "P2", Category = "Cat2" },
+				new() { ProductID = 3, Name = "P3", Category = "Cat1" },
+				new() { ProductID = 4, Name = "P4", Category = "Cat2" },
+				new() { ProductID = 5, Name = "P5", Category = "Cat3" }
+			}).AsQueryable<Product>());
+
+			// Arrange - create a controller and make the page size 3 items
+			HomeController controller = new(mock.Object)
+			{
+				PageSize = 3
+			};
+
+			// Action
+			Product[] result = (controller.Index("Cat2", 1)?.ViewData.Model as ProductsListViewModel ?? new()).Products.ToArray();
+
+			// Assert
+			Assert.Equal(2, result.Length);
+			Assert.True(result[0].Name == "P2" && result[0].Category == "Cat2");
+			Assert.True(result[1].Name == "P4" && result[1].Category == "Cat2");
 		}
 	}
 }

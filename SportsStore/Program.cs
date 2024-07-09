@@ -11,7 +11,14 @@ builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 
 var app = builder.Build();
 
-app.UseStaticFiles(); 
+app.UseStaticFiles();
+
+app.MapControllerRoute("catpage", "{category}/Page{productPage:int}", new { Controller = "Home", Action = "Index" });
+
+app.MapControllerRoute("page", "Page{productPage:int}", new { Controller = "Home", action = "Index", productPage = 1 });
+
+app.MapControllerRoute("category", "{category}", new { Controller = "Home", action = "Index", productPage = 1 });
+
 app.MapControllerRoute("pagination", "Products/Page{productPage}", new { Controller = "Home", Action = "Index" });
 app.MapDefaultControllerRoute();
 
