@@ -36,31 +36,9 @@ namespace SportsStore.Tests
 			Cart testCart = new();
 			testCart.AddItem(p1, 2);
 			testCart.AddItem(p2, 1);
-			// cria a representação em JSON do carrinho testCart que é o mock do teste
-			byte[] data = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(testCart));
-			Mock<ISession> mockSession = new();
-			/**
-			 * quando tentar pegar qualquer chave na sessão, retorna os dados que são representados
-			 * pelo carrinho testCart que foi mockado anteriormente.
-			 */
-			mockSession.Setup(c => c.TryGetValue(It.IsAny<string>(), out data!));
-			/**
-			 * cria um mock para o contexto, de forma que permite simular os dados que estão
-			 * trafegando na requisição HTTP no processo de teste da página de carregar o carrinho
-			 */
-			Mock<HttpContext> mockContext = new();
-			mockContext.SetupGet(c => c.Session).Returns(mockSession.Object);
 
 			// Action
-			CartModel cartModel = new(mockRepo.Object)
-			{
-				PageContext = new PageContext(new ActionContext
-				{
-					HttpContext = mockContext.Object,
-					RouteData = new RouteData(),
-					ActionDescriptor = new PageActionDescriptor()
-				})
-			};
+			CartModel cartModel = new(mockRepo.Object, testCart);
 			cartModel.OnGet("myUrl");
 
 			// Assert
@@ -81,24 +59,8 @@ namespace SportsStore.Tests
 
 			Cart? testCart = new();
 
-			Mock<ISession> mockSession = new();
-			mockSession
-				.Setup(s => s.Set(It.IsAny<string>(), It.IsAny<byte[]>()))
-				.Callback<string, byte[]>((key, val) => testCart = JsonSerializer.Deserialize<Cart>(Encoding.UTF8.GetString(val)));
-
-			Mock<HttpContext> mockContext = new();
-			mockContext.SetupGet(c => c.Session).Returns(mockSession.Object);
-
 			// Action
-			CartModel cartModel = new(mockRepo.Object)
-			{
-				PageContext = new PageContext(new ActionContext
-				{
-					HttpContext = mockContext.Object,
-					RouteData = new RouteData(),
-					ActionDescriptor = new PageActionDescriptor()
-				})
-			};
+			CartModel cartModel = new(mockRepo.Object, testCart);
 			cartModel.OnPost(1, "myUrl");
 
 			//Assert

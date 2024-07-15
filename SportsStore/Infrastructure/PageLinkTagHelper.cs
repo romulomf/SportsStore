@@ -10,7 +10,7 @@ namespace SportsStore.Infrastructure
 	[HtmlTargetElement("div", Attributes = "page-model")]
 	public class PageLinkTagHelper(IUrlHelperFactory urlHelperFactory) : TagHelper
 	{
-		private IUrlHelperFactory urlHelperFactory = urlHelperFactory;
+		private readonly IUrlHelperFactory urlHelperFactory = urlHelperFactory;
 
 		[ViewContext]
 		[HtmlAttributeNotBound]
@@ -40,6 +40,10 @@ namespace SportsStore.Infrastructure
 				for (int i = 1; i <= PageModel.TotalPages; i++)
 				{
 					TagBuilder tag = new("a");
+					/* adiciona o número da página ao dicionário de dados que é usado para
+					 * fazer a montagem da URL que corresponde ao link da navegação da paginação.
+					 */
+					PageUrlValues["productPage"] = i;
 					tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
 					if (PageClassesEnabled)
 					{
