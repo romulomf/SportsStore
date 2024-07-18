@@ -23,8 +23,8 @@ namespace SportsStore.Tests
 		{
 			// Arrange
 			// - create a mock repository
-			Product p1 = new() { ProductID = 1, Name = "P1" };
-			Product p2 = new() { ProductID = 2, Name = "P2" };
+			Product p1 = new() { ProductId = 1, Name = "P1" };
+			Product p2 = new() { ProductId = 2, Name = "P2" };
 			/**
 			 * cria o mock do repositório que simula a devolução dos dois produtos criados anteriormente
 			 * quando for solicitada a leitura dos produtos existentes durante este teste.
@@ -54,7 +54,7 @@ namespace SportsStore.Tests
 			// - create a mock repository
 			Mock<IStoreRepository> mockRepo = new();
 			mockRepo.Setup(m => m.Products).Returns((new Product[] {
-				new() { ProductID = 1, Name = "P1" }
+				new() { ProductId = 1, Name = "P1" }
 			}).AsQueryable<Product>());
 
 			Cart? testCart = new();

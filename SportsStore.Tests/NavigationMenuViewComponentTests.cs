@@ -20,10 +20,10 @@ namespace SportsStore.Tests
 			Mock<IStoreRepository> mock = new();
 			mock.Setup(m => m.Products).Returns((new Product[]
 			{
-				new() { ProductID = 1, Name = "P1", Category = "Apples" },
-				new() { ProductID = 2, Name = "P2", Category = "Apples" },
-				new() { ProductID = 3, Name = "P3", Category = "Plums" },
-				new() { ProductID = 4, Name = "P4", Category = "Oranges" },
+				new() { ProductId = 1, Name = "P1", Category = "Apples" },
+				new() { ProductId = 2, Name = "P2", Category = "Apples" },
+				new() { ProductId = 3, Name = "P3", Category = "Plums" },
+				new() { ProductId = 4, Name = "P4", Category = "Oranges" },
 			}).AsQueryable());
 
 			NavigationMenuViewComponent target = new(mock.Object);
@@ -42,8 +42,8 @@ namespace SportsStore.Tests
 			string categoryToSelect = "Apples";
 			Mock<IStoreRepository> mock = new Mock<IStoreRepository>();
 			mock.Setup(m => m.Products).Returns((new Product[] {
-				new() {ProductID = 1, Name = "P1", Category = "Apples"},
-				new() {ProductID = 4, Name = "P2", Category = "Oranges"},
+				new() {ProductId = 1, Name = "P1", Category = "Apples"},
+				new() {ProductId = 4, Name = "P2", Category = "Oranges"},
 			}).AsQueryable<Product>());
 
 			NavigationMenuViewComponent target = new(mock.Object);

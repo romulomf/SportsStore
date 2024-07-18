@@ -14,8 +14,8 @@ namespace SportsStore.Tests
 		public void Can_Add_New_Lines()
 		{
 			// Arrange - create some test products
-			Product p1 = new() { ProductID = 1, Name = "P1" };
-			Product p2 = new() { ProductID = 2, Name = "P2" };
+			Product p1 = new() { ProductId = 1, Name = "P1" };
+			Product p2 = new() { ProductId = 2, Name = "P2" };
 
 			// Arrange - create a new cart
 			Cart target = new();
@@ -35,8 +35,8 @@ namespace SportsStore.Tests
 		public void Can_Add_Quantity_For_Existing_Lines()
 		{
 			// Arrange - create some test products
-			Product p1 = new() { ProductID = 1, Name = "P1" };
-			Product p2 = new() { ProductID = 2, Name = "P2" };
+			Product p1 = new() { ProductId = 1, Name = "P1" };
+			Product p2 = new() { ProductId = 2, Name = "P2" };
 
 			// Arrange - create a new cart
 			Cart target = new();
@@ -45,7 +45,7 @@ namespace SportsStore.Tests
 			target.AddItem(p1, 1);
 			target.AddItem(p2, 1);
 			target.AddItem(p1, 10);
-			CartLine[] results = [.. (target.Lines ?? []).OrderBy(c => c.Product.ProductID)];
+			CartLine[] results = [.. (target.Lines ?? []).OrderBy(c => c.Product.ProductId)];
 
 			// Assert
 			Assert.Equal(2, results.Length);
@@ -57,9 +57,9 @@ namespace SportsStore.Tests
 		public void Can_Remove_Line()
 		{
 			// Arrange - create some test products
-			Product p1 = new() { ProductID = 1, Name = "P1" };
-			Product p2 = new() { ProductID = 2, Name = "P2" };
-			Product p3 = new() { ProductID = 3, Name = "P3" };
+			Product p1 = new() { ProductId = 1, Name = "P1" };
+			Product p2 = new() { ProductId = 2, Name = "P2" };
+			Product p3 = new() { ProductId = 3, Name = "P3" };
 
 			// Arrange - create a new cart
 			Cart target = new();
@@ -81,8 +81,8 @@ namespace SportsStore.Tests
 		public void Calculate_Cart_Total()
 		{
 			// Arrange - create some test products
-			Product p1 = new() { ProductID = 1, Name = "P1", Price = 100M };
-			Product p2 = new() { ProductID = 2, Name = "P2", Price = 50M };
+			Product p1 = new() { ProductId = 1, Name = "P1", Price = 100M };
+			Product p2 = new() { ProductId = 2, Name = "P2", Price = 50M };
 
 			// Arrange - create a new cart
 			Cart target = new();
@@ -101,8 +101,8 @@ namespace SportsStore.Tests
 		public void Can_Clear_Contents()
 		{
 			// Arrange - create some test products
-			Product p1 = new() { ProductID = 1, Name = "P1", Price = 100M };
-			Product p2 = new() { ProductID = 2, Name = "P2", Price = 50M };
+			Product p1 = new() { ProductId = 1, Name = "P1", Price = 100M };
+			Product p2 = new() { ProductId = 2, Name = "P2", Price = 50M };
 
 			// Arrange - create a new cart
 			Cart target = new();
